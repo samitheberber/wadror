@@ -6,5 +6,5 @@ RateBeer::Application.routes.draw do
 
   get 'kaikki_bisset', to: 'beers#index'
 
-  resources :ratings, :only => [:index, :new, :create]
+  resources :ratings, :only => [:index, :new, :create, :destroy]
 end
