@@ -1,6 +1,7 @@
 class BeersController < ApplicationController
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
   before_action :set_breweries, only: [:new, :edit, :create, :update]
+  before_action :set_styles, only: [:new, :edit, :create, :update]
 
   # GET /beers
   # GET /beers.json
@@ -70,6 +71,10 @@ class BeersController < ApplicationController
 
     def set_breweries
       @breweries = Brewery.all
+    end
+
+    def set_styles
+      @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
