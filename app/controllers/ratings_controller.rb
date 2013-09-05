@@ -9,15 +9,15 @@ class RatingsController < ApplicationController
   end
 
   def create
-    Rating.create rating_params
-    session[:last_rating] = "#{Beer.find(params[:rating][:beer_id])} #{params[:rating][:score]} points"
-    redirect_to ratings_path
+    rating = Rating.create rating_params
+    current_user.ratings << rating
+    redirect_to user_path current_user
   end
 
   def destroy
     rating = Rating.find params[:id]
     rating.delete
-    redirect_to ratings_path
+    redirect_to :back
   end
 
   private
