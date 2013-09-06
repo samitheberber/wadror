@@ -8,4 +8,7 @@ class User < ActiveRecord::Base
 
   has_many :memberships
   has_many :beer_clubs, through: :memberships
+
+  validates_uniqueness_of :username
+  validates_length_of :password, minimum: 4
 end

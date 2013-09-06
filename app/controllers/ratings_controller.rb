@@ -9,9 +9,14 @@ class RatingsController < ApplicationController
   end
 
   def create
-    rating = Rating.create rating_params
-    current_user.ratings << rating
-    redirect_to user_path current_user
+    @rating = Rating.new rating_params
+    if @rating.save
+      current_user.ratings << @rating
+      redirect_to user_path current_user
+    else
+      @beers = Beer.all
+      render :new
+    end
   end
 
   def destroy
