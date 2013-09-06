@@ -4,7 +4,7 @@ class Rating < ActiveRecord::Base
                                       only_integer: true }
 
   belongs_to :beer
-  belongs_to :user   # rating kuuluu myös käyttäjään
+  belongs_to :user
 
   def to_s
     "#{beer.name} #{score}"
