@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    redirect_to users_path unless current_user == @user
+    redirect_to users_path unless currently_signed_in? @user
   end
 
   def create
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
   def update
     respond_to do |format|
-      if current_user == @user and @user.update(user_params)
+      if currently_signed_in? @user and @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy if current_user == @user
+    @user.destroy if currently_signed_in? @user
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
