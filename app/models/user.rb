@@ -12,4 +12,5 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
   validates_length_of :username, in: 3..15
   validates_length_of :password, minimum: 4
+  validates_format_of :password, with: /\A.*[^[:alpha:]]+.*\Z/, message: 'must have also non-letters'
 end
