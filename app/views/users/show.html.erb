@@ -19,4 +19,11 @@
 <% end %>
 </ul>
 
+<p>
+  belongs to
+  <% @user.beer_clubs.each do |club| %>
+    <%= link_to club.name, club %>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_user_path(@user) %>
