@@ -24,6 +24,11 @@ class User < ActiveRecord::Base
     average_with_property :style
   end
 
+  def favorite_brewery
+    return nil if beers.empty?
+    average_with_property :brewery
+  end
+
   private
 
   def average_with_property property
