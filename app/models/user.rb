@@ -18,4 +18,21 @@ class User < ActiveRecord::Base
     return nil if ratings.empty?
     ratings.order('score DESC').first.beer
   end
+
+  def favorite_style
+    return nil if beers.empty?
+    average_with_property :style
+  end
+
+  private
+
+  def average_with_property property
+    lollers = ratings.group_by{|rating| rating.beer.send property}
+    average_from_members lollers
+  end
+
+  def average_from_members lols
+    lol, _ = lols.max_by{|style, rs| rs.inject(0.0) {|sum, rating| sum + rating.score } / rs.size}
+    lol
+  end
 end
