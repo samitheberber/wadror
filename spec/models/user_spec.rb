@@ -6,6 +6,28 @@ describe User do
     expect(user.username).to eq("Pekka")
   end
 
+  describe "without valid password" do
+    let(:user) do
+      User.new username: "Pekka", password: "asd"
+    end
+
+    before(:each) do
+      expect(user.valid?).to be(false)
+    end
+
+    def password_has_error(regex)
+      not user.errors[:password].grep(regex).empty?
+    end
+
+    it "should fail, when password is too short" do
+      expect(password_has_error(/is too short/)).to eq(true)
+    end
+
+    it "should fail, when only letters" do
+      expect(password_has_error(/non-letters/)).to eq(true)
+    end
+  end
+
   it "is not saved without a proper password" do
     user = User.create username: "Pekka"
     expect(user.valid?).to be(false)
