@@ -65,5 +65,17 @@ describe "Rating" do
       visit user_path(user)
       expect(page).to have_content "#{user.username} has given 2 ratings"
     end
+
+    it "removes rating when deleting it" do
+      sign_in 'Pekka', 'foobar1'
+
+      user.ratings << FactoryGirl.create(:rating, beer: beer1)
+
+      visit user_path(user)
+
+      expect{
+        click_link('delete')
+      }.to change{user.ratings.count}.by(-1)
+    end
   end
 end
