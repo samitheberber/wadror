@@ -25,4 +25,25 @@ describe "Rating" do
     expect(beer1.ratings.count).to eq(1)
     expect(beer1.average_rating).to eq(15.0)
   end
+
+  describe "with beer page" do
+    it "shows no rating, when no ratings" do
+      visit beer_path(beer1)
+      expect(page).to have_content "beer has not yet been rated!"
+    end
+
+    it "shows rating, when has rating" do
+      beer1.ratings << FactoryGirl.create(:rating)
+      visit beer_path(beer1)
+      expect(page).to have_content "beer has 1 rating"
+    end
+
+    it "shows rating, when has ratings" do
+      3.times do
+        beer1.ratings << FactoryGirl.create(:rating)
+      end
+      visit beer_path(beer1)
+      expect(page).to have_content "beer has 3 ratings"
+    end
+  end
 end
