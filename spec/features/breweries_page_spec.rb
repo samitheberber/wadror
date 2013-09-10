@@ -32,6 +32,27 @@ describe "Breweries page" do
       expect(page).to have_content "Koff"
       expect(page).to have_content "Established year 1897"
     end
+  end
 
+  describe "creating new beer" do
+    it "should add new beer with valid data" do
+      brewery = FactoryGirl.create(:brewery)
+      visit new_beer_path
+      fill_in('beer_name', with: 'Lol Brew')
+      select('IPA', from: 'beer_style')
+      select(brewery.name, from: 'beer_brewery_id')
+      expect{
+        click_button('Create Beer')
+      }.to change{Beer.count}.by(1)
+    end
+
+    it "should not add new beer with invalid data" do
+      visit new_beer_path
+      fill_in('beer_name', with: '')
+      select('IPA', from: 'beer_style')
+      expect{
+        click_button('Create Beer')
+      }.to change{Beer.count}.by(0)
+    end
   end
 end
