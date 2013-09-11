@@ -6,6 +6,12 @@ describe Brewery do
 
     brewery.name.should == "Schlenkerla"
     brewery.year.should == 1674
-    brewery.valid?.should == true
+    brewery.should be_valid
+  end
+
+  it "without a name is not valid" do
+    brewery = Brewery.create year: 1674
+
+    brewery.should_not be_valid
   end
 end
