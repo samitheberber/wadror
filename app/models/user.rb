@@ -32,12 +32,7 @@ class User < ActiveRecord::Base
   private
 
   def average_with_property property
-    lollers = ratings.group_by{|rating| rating.beer.send property}
-    average_from_members lollers
-  end
-
-  def average_from_members lols
-    lol, _ = lols.max_by{|style, rs| rs.inject(0.0) {|sum, rating| sum + rating.score } / rs.size}
-    lol
+    ratings_with_property = ratings.group_by{|rating| rating.beer.send property}
+    ratings_with_property.max_by{|_, rs| rs.map(&:score).inject(0.0, :+) / rs.size}.first
   end
 end
