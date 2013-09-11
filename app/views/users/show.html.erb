@@ -3,6 +3,22 @@
 <h2><%= @user.username %></h2>
 
 <p>
+<% if @user.favorite_style %>
+  has <%= @user.favorite_style %> as favorite style
+<% else %>
+  has not favorite style
+<% end %>
+</p>
+
+<p>
+<% if @user.favorite_brewery %>
+  has <%= @user.favorite_brewery.name %> as favorite brewery
+<% else %>
+  has not favorite brewery
+<% end %>
+</p>
+
+<p>
 <% if @user.ratings.empty? %>
   has not yet given any ratings!
 <% else %>

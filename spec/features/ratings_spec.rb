@@ -50,20 +50,20 @@ describe "Rating" do
   describe "with user page" do
     it "shows no rating, when no ratings" do
       visit user_path(user)
-      expect(page).to have_content "#{user.username} has not yet given any ratings!"
+      expect(page).to have_content "has not yet given any ratings!"
     end
 
     it "shows rating, when has rating" do
       user.ratings << FactoryGirl.create(:rating, beer: beer1)
       visit user_path(user)
-      expect(page).to have_content "#{user.username} has given 1 rating"
+      expect(page).to have_content "has given 1 rating"
     end
 
     it "shows rating, when has ratings" do
       user.ratings << FactoryGirl.create(:rating, beer: beer1)
       user.ratings << FactoryGirl.create(:rating, beer: beer2)
       visit user_path(user)
-      expect(page).to have_content "#{user.username} has given 2 ratings"
+      expect(page).to have_content "has given 2 ratings"
     end
 
     it "removes rating when deleting it" do
