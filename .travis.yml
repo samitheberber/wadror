@@ -8,3 +8,4 @@ deploy:
   app: berberi-wadror
   on:
     repo: samitheberber/wadror
+  run: "rake db:migrate"
