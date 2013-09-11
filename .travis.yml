@@ -1,3 +1,10 @@
 language: ruby
 rvm:
- - 2.0.0
+- 2.0.0
+deploy:
+  provider: heroku
+  api_key:
+    secure: UiNHEO1iqnGg84a9tAfUQw+sYPYMqUk5ENalisbza3Ke+Mp8lZ6M65SkwnNlQxONc76c7b/zRF2UB0OlAS9z65UQAHFBf4kC0FBUWoGq521sQfupOvxpCo+EW8v48MFSBspEuLAmpaLytrHcd1q8IqG+IWo89zvmh/Dy958L0fY=
+  app: berberi-wadror
+  on:
+    repo: samitheberber/wadror
