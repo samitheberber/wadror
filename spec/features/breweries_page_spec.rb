@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "Breweries page" do
+  include OwnTestHelper
+
   it "should not have any before been created" do
     visit breweries_path
     expect(page).to have_content 'Listing breweries'
@@ -35,6 +37,11 @@ describe "Breweries page" do
   end
 
   describe "creating new beer" do
+    before :each do
+      FactoryGirl.create :user
+      sign_in 'Pekka', 'foobar1'
+    end
+
     it "should add new beer with valid data" do
       brewery = FactoryGirl.create(:brewery)
       visit new_beer_path

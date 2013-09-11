@@ -1,5 +1,7 @@
 class BreweriesController < ApplicationController
-  before_filter :authenticate, :only => [:new, :create, :destroy]
+  before_filter :ensure_that_signed_in, except: [:index, :show]
+
+  before_filter :authenticate, :only => [:destroy]
 
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
 

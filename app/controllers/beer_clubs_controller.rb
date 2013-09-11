@@ -1,4 +1,6 @@
 class BeerClubsController < ApplicationController
+  before_filter :ensure_that_signed_in, except: [:index, :show]
+
   before_action :set_beer_club, only: [:show, :edit, :update, :destroy]
 
   # GET /beer_clubs
