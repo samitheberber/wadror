@@ -1,4 +1,7 @@
 RateBeer::Application.routes.draw do
+  get 'places' => 'places#index'
+  post 'places' => 'places#search'
+
   resources :memberships
 
   resources :beer_clubs
