@@ -67,10 +67,7 @@ class BreweriesController < ApplicationController
 
   private
     def authenticate
-      admin_accounts = { "admin" => "secret", "pekka" => "beer", "arto" => "foobar", "matti" => "ittam"}
-      authenticate_or_request_with_http_basic do |username, password|
-        admin_accounts[username] and admin_accounts[username] == password
-      end
+      redirect_to signin_path, notice: 'you need to be admin' unless current_user.admin
     end
 
     # Use callbacks to share common setup or constraints between actions.

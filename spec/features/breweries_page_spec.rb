@@ -62,4 +62,26 @@ describe "Breweries page" do
       }.to change{Beer.count}.by(0)
     end
   end
+
+  describe "delete brewery" do
+    let!(:brewery) { FactoryGirl.create :brewery }
+
+    it "should not remove brewery when user is not admin" do
+      FactoryGirl.create :user
+      sign_in 'Pekka', 'foobar1'
+
+      visit breweries_path
+      expect(page).to have_no_content "Destroy"
+    end
+
+    it "should remove brewery when user is admin" do
+      FactoryGirl.create :user, admin: true
+      sign_in 'Pekka', 'foobar1'
+
+      visit breweries_path
+      expect{
+        click_link('Destroy')
+      }.to change{Brewery.count}.by(-1)
+    end
+  end
 end
