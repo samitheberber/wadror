@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe "BeermappingAPI" do
+  before(:each) do
+    Rails.cache.clear
+  end
+
   it "When HTTP GET returns one entry, it is parsed and returned" do
 
    s = <<-END_OF_STRING
