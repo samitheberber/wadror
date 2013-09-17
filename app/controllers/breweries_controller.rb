@@ -5,10 +5,8 @@ class BreweriesController < ApplicationController
 
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
 
-  # GET /breweries
-  # GET /breweries.json
   def index
-    @breweries = Brewery.all
+    @breweries = Brewery.all.sort_by{ |b| b.send(params[:order] || 'name') }
   end
 
   # GET /breweries/1
