@@ -6,12 +6,13 @@
 <% end %>
 
 <% if @places %>
-  <table>
+  <table class="table table-hover">
     <thead>
-      <td>name</td>
-      <td>status</td>
-      <td>overall</td>
+      <th>name</th>
+      <th>status</th>
+      <th>overall</th>
     </thead>
+    <tbody>
     <% @places.each do |place| %>
       <tr>
         <td><%= link_to place.name, place_path(place.id) %></td>
@@ -19,5 +20,6 @@
         <td><%= place.overall %></td>
       </tr>
     <% end %>
+    </tbody>
   </table>
 <% end %>
