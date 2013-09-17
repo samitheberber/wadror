@@ -5,10 +5,8 @@ class BeersController < ApplicationController
   before_action :set_breweries, only: [:new, :edit, :create, :update]
   before_action :set_styles, only: [:new, :edit, :create, :update]
 
-  # GET /beers
-  # GET /beers.json
   def index
-    @beers = Beer.all
+    @beers = Beer.all.sort_by{ |b| b.send(params[:order] || 'name').to_s }
   end
 
   def show
