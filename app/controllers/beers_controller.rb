@@ -76,7 +76,7 @@ class BeersController < ApplicationController
     end
 
     def set_styles
-      @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+      @styles = Style.all
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

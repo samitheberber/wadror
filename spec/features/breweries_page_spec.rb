@@ -37,6 +37,10 @@ describe "Breweries page" do
   end
 
   describe "creating new beer" do
+    let!(:style) do
+      FactoryGirl.create :style
+    end
+
     before :each do
       FactoryGirl.create :user
       sign_in 'Pekka', 'foobar1'
@@ -46,7 +50,7 @@ describe "Breweries page" do
       brewery = FactoryGirl.create(:brewery)
       visit new_beer_path
       fill_in('beer_name', with: 'Lol Brew')
-      select('IPA', from: 'beer_style')
+      select(style.name, from: 'beer_style_id')
       select(brewery.name, from: 'beer_brewery_id')
       expect{
         click_button('Create Beer')
@@ -56,7 +60,7 @@ describe "Breweries page" do
     it "should not add new beer with invalid data" do
       visit new_beer_path
       fill_in('beer_name', with: '')
-      select('IPA', from: 'beer_style')
+      select(style.name, from: 'beer_style_id')
       expect{
         click_button('Create Beer')
       }.to change{Beer.count}.by(0)
