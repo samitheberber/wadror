@@ -1,6 +1,15 @@
 class BeermappingAPI
+  def self.find(id)
+    Place
+    field = "place_#{id}"
+    unless Rails.cache.exist? field
+      Rails.cache.write field, fetch_place(id)
+    end
+    Rails.cache.read field
+  end
+
   def self.places_in(city)
-    Place # varmistaa, että luokan koodi on ladattu
+    Place
     city = city.downcase
     write_current(city) unless Rails.cache.exist? city
 
@@ -30,6 +39,20 @@ class BeermappingAPI
     places.inject([]) do |set, place|
       set << Place.new(place)
     end
+  end
+
+  def self.fetch_place(id)
+    url = "http://beermapping.com/webservice/locquery/#{key}/#{id}"
+    response = HTTParty.get url
+    place = response.parsed_response["bmp_locations"]["location"]
+    return nil if place.is_a?(Hash) and place['id'].nil?
+    Place.new(place.merge fetch_place_scores(id))
+  end
+
+  def self.fetch_place_scores(id)
+    url = "http://beermapping.com/webservice/locscore/#{key}/#{id}"
+    response = HTTParty.get url
+    response.parsed_response["bmp_locations"]["location"]
   end
 
   def self.key

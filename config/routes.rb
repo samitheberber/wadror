@@ -1,5 +1,6 @@
 RateBeer::Application.routes.draw do
-  get 'places' => 'places#index'
+
+  resources :places, only: [:index, :show]
   post 'places' => 'places#search'
 
   resources :memberships
