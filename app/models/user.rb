@@ -20,18 +20,17 @@ class User < ActiveRecord::Base
   end
 
   def favorite_style
-    return nil if beers.empty?
-    average_with_property :style
+    favorite :style
   end
 
   def favorite_brewery
-    return nil if beers.empty?
-    average_with_property :brewery
+    favorite :brewery
   end
 
   private
 
-  def average_with_property property
+  def favorite property
+    return nil if beers.empty?
     ratings_with_property = ratings.group_by{|rating| rating.beer.send property}
     ratings_with_property.max_by{|_, rs| rs.map(&:score).inject(0.0, :+) / rs.size}.first
   end
