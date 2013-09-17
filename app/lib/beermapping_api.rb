@@ -2,12 +2,21 @@ class BeermappingAPI
   def self.places_in(city)
     Place # varmistaa, että luokan koodi on ladattu
     city = city.downcase
-    Rails.cache.write city, fetch_places_in(city) if not Rails.cache.exist? city
+    write_current(city) unless Rails.cache.exist? city
 
-    Rails.cache.read city
+    time, data = Rails.cache.read city
+    if time < 1.hour.ago
+      write_current(city)
+      _, data = Rails.cache.read city
+    end
+    data
   end
 
   private
+
+  def self.write_current(city)
+    Rails.cache.write city, [Time.now, fetch_places_in(city)]
+  end
 
   def self.fetch_places_in(city)
     url = "http://beermapping.com/webservice/loccity/#{key}/"
