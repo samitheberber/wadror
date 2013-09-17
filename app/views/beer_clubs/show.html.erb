@@ -12,4 +12,11 @@
 <% end %>
 </ul>
 
+<% unless @beer_club.members.include? current_user %>
+  <%= form_for(@membership) do |f| %>
+    <%= f.hidden_field :beer_club_id %>
+    <%= f.submit 'Join' %>
+  <% end %>
+<% end %>
+
 <%= link_to 'Edit', edit_beer_club_path(@beer_club) %>
