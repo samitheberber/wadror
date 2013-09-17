@@ -6,8 +6,6 @@
       <th> <%= link_to 'Name', beers_path(order: "name") %> </th>
       <th> <%= link_to 'Style', beers_path(order: "style") %> </th>
       <th> <%= link_to 'Brewery', beers_path(order: "brewery") %> </th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
 
@@ -17,8 +15,6 @@
         <td><%= link_to beer.name, beer %></td>
         <td><%= beer.style %></td>
         <td><%= link_to beer.brewery.name, beer.brewery %></td>
-        <td><%= link_to('Edit', edit_beer_path(beer)) if current_user %></td>
-        <td><%= link_to('Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' }) if current_user %></td>
       </tr>
     <% end %>
   </tbody>
