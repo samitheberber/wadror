@@ -1,4 +1,5 @@
 RateBeer::Application.routes.draw do
+  get 'beerlist' => 'beers#list'
 
   resources :styles
 

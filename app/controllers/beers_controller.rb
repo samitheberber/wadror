@@ -1,5 +1,5 @@
 class BeersController < ApplicationController
-  before_filter :ensure_that_signed_in, except: [:index, :show]
+  before_filter :ensure_that_signed_in, except: [:index, :show, :list]
 
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
   before_action :set_breweries, only: [:new, :edit, :create, :update]
@@ -7,6 +7,9 @@ class BeersController < ApplicationController
 
   def index
     @beers = Beer.all.sort_by{ |b| b.send(params[:order] || 'name').to_s }
+  end
+
+  def list
   end
 
   def show
