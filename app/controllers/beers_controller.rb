@@ -6,7 +6,7 @@ class BeersController < ApplicationController
   before_action :set_styles, only: [:new, :edit, :create, :update]
 
   def index
-    @beers = Beer.all.sort_by{ |b| b.send(params[:order] || 'name').to_s }
+    @beers = Beer.all(include: [:brewery, :style]).sort_by{ |b| b.send(params[:order] || 'name').to_s }
   end
 
   def list
