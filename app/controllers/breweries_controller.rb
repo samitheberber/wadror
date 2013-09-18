@@ -3,7 +3,7 @@ class BreweriesController < ApplicationController
 
   before_filter :authenticate, :only => [:destroy]
 
-  before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  before_action :set_brewery, only: [:show, :edit, :update, :destroy, :toggle_activity]
 
   def index
     @active_breweries = Brewery.active
@@ -62,6 +62,14 @@ class BreweriesController < ApplicationController
       format.html { redirect_to breweries_url }
       format.json { head :no_content }
     end
+  end
+
+  def toggle_activity
+    @brewery.update_attribute :active, (not @brewery.active)
+
+    new_status = @brewery.active? ? "active" : "retired"
+
+    redirect_to :back, notice: "brewery activity stataus changed to #{new_status}"
   end
 
   private
