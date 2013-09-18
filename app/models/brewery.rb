@@ -12,4 +12,7 @@ class Brewery < ActiveRecord::Base
       errors.add(:year, "must be past 1042 and not past this year")
     end
   end
+
+  scope :active, where(active: true)
+  scope :retired, where(active: [nil, false])
 end

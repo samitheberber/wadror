@@ -1,29 +1,49 @@
-<h1>Listing breweries</h1>
+<p id="notice"><%= notice %></p>
 
-<p> number of breweries <%= @breweries.count %> </p>
+<h1>Breweries</h1>
+
+<h2>Active</h2>
+
+<p> number active of breweries <%= @active_breweries.count %> </p>
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Year</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @active_breweries.each do |brewery| %>
+    <tr>
+      <td><%= link_to brewery.name, brewery %></td>
+      <td><%= brewery.year %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h2>Retired</h2>
+
+<p> number retired of breweries <%= @retired_breweries.count %> </p>
 
 <table class="table table-hover">
   <thead>
     <tr>
-      <th> <%= link_to 'Name', breweries_path(order: "name") %> </th>
-      <th> <%= link_to 'Year', breweries_path(order: "year") %> </th>
+      <th>Name</th>
+      <th>Year</th>
     </tr>
   </thead>
-
   <tbody>
-    <% @breweries.each do |brewery| %>
-      <tr>
-        <td><%= link_to brewery.name, brewery %></td>
-        <td><%= brewery.year %></td>
-      </tr>
-    <% end %>
+  <% @retired_breweries.each do |brewery| %>
+    <tr>
+      <td><%= link_to brewery.name, brewery %></td>
+      <td><%= brewery.year %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 
-<br>
+<br />
 
-<%= link_to('New Brewery', new_brewery_path) if current_user %>
-
-<br>
-
-<%= link_to 'list of beers', beers_path %>
+<%= link_to('New Brewery', new_brewery_path, class: "btn btn-primary") if current_user %>
