@@ -12,5 +12,4 @@
 <% end %>
 </ul>
 
-<%= link_to 'Edit', edit_style_path(@style) %>
-<%= link_to 'Destroy', @style, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+<%= edit_and_destroy_buttons(@style) %>
