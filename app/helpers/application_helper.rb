@@ -9,4 +9,8 @@ module ApplicationHelper
       raw("#{edit} #{del}")
     end
   end
+
+  def round(value)
+    number_with_precision(value, precision: 1)
+  end
 end

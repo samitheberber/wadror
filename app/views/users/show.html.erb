@@ -22,7 +22,7 @@
 <% if @user.ratings.empty? %>
   has not yet given any ratings!
 <% else %>
-  has given <%= pluralize @user.ratings.count, 'rating' %>, average <%= @user.average_rating %>
+  has given <%= pluralize @user.ratings.count, 'rating' %>, average <%= round @user.average_rating %>
 <% end %>
 </p>
 
@@ -44,7 +44,4 @@
   <% end %>
 </p>
 
-<% if currently_signed_in? @user %>
-  <%= link_to 'Edit', edit_user_path(@user) %> |
-  <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-<% end %>
+<%= edit_and_destroy_buttons(@user) %>
