@@ -19,15 +19,15 @@
 </p>
 
 <p>
-<% if @user.ratings.empty? %>
+<% if @user.ratings_beers.empty? %>
   has not yet given any ratings!
 <% else %>
-  has given <%= pluralize @user.ratings.count, 'rating' %>, average <%= round @user.average_rating %>
+  has given <%= pluralize @user.ratings_beers.size, 'rating' %>, average <%= round @user.average_rating %>
 <% end %>
 </p>
 
 <ul>
-<% @user.ratings.each do |rating| %>
+<% @user.ratings_beers.each do |rating| %>
   <li>
     <%= rating %>
     <% if currently_signed_in? @user %>

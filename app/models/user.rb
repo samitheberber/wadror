@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :ratings, dependent: :destroy
-  has_many :beers, through: :ratings
+  has_many :beers, through: :ratings, include: [:brewery, :style]
 
   has_many :memberships
   has_many :beer_clubs, through: :memberships
@@ -38,11 +38,15 @@ class User < ActiveRecord::Base
     favorite :brewery
   end
 
+  def ratings_beers
+    @ratings_beers ||= ratings.includes(beer: [:brewery, :style])
+  end
+
   private
 
   def favorite property
     return nil if beers.empty?
-    ratings_with_property = ratings.group_by{|rating| rating.beer.send property}
+    ratings_with_property = ratings_beers.group_by{|rating| rating.beer.send property}
     ratings_with_property.max_by{|_, rs| rs.map(&:score).inject(0.0, :+) / rs.size}.first
   end
 end
