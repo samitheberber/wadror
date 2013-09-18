@@ -6,7 +6,8 @@ class BeersController < ApplicationController
   before_action :set_styles, only: [:new, :edit, :create, :update]
 
   def index
-    @beers = Beer.all(include: [:brewery, :style]).sort_by{ |b| b.send(params[:order] || 'name').to_s }
+    @order = params[:order] || 'name'
+    @beers = Beer.all(include: [:brewery, :style]).sort_by{ |b| b.send(@order).to_s }
   end
 
   def list
@@ -22,14 +23,13 @@ class BeersController < ApplicationController
     @beer = Beer.new
   end
 
-  # GET /beers/1/edit
   def edit
   end
 
-  # POST /beers
-  # POST /beers.json
   def create
     @beer = Beer.new(beer_params)
+
+    ["beers-name", "beers-brewery", "beers-style"].each{ |f| expire_fragment(f) }
 
     respond_to do |format|
       if @beer.save
@@ -42,9 +42,9 @@ class BeersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /beers/1
-  # PATCH/PUT /beers/1.json
   def update
+    ["beers-name", "beers-brewery", "beers-style"].each{ |f| expire_fragment(f) }
+
     respond_to do |format|
       if @beer.update(beer_params)
         format.html { redirect_to @beer, notice: 'Beer was successfully updated.' }
@@ -56,10 +56,11 @@ class BeersController < ApplicationController
     end
   end
 
-  # DELETE /beers/1
-  # DELETE /beers/1.json
   def destroy
-    @beer.destroy
+    @beer.destroy if current_user.admin
+
+    ["beers-name", "beers-brewery", "beers-style"].each{ |f| expire_fragment(f) }
+
     respond_to do |format|
       format.html { redirect_to beers_url }
       format.json { head :no_content }
