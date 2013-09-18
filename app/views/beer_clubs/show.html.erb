@@ -12,7 +12,18 @@
 <% end %>
 </ul>
 
-<% unless @beer_club.members.include? current_user %>
+<% if @beer_club.members.include? current_user %>
+  <h3>applications:</h3>
+
+  <ul>
+    <% @beer_club.applications.each do |application| %>
+      <li>
+      <%= link_to application.user.username, application.user %>
+      <%= link_to "confirm", confirm_membership_path(application), method: :post, class: "btn" %>
+      </li>
+    <% end %>
+  </ul>
+<% elsif not current_user.beer_clubs.include? @beer_club %>
   <%= form_for(@membership) do |f| %>
     <%= f.hidden_field :beer_club_id %>
     <%= f.submit 'Join' %>

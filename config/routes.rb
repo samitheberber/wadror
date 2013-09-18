@@ -6,7 +6,9 @@ RateBeer::Application.routes.draw do
   resources :places, only: [:index, :show]
   post 'places' => 'places#search'
 
-  resources :memberships
+  resources :memberships do
+    post 'confirm', on: :member
+  end
 
   resources :beer_clubs
 

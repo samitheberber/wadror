@@ -29,7 +29,7 @@ class BeerClubsController < ApplicationController
     @beer_club = BeerClub.new(beer_club_params)
 
     respond_to do |format|
-      if @beer_club.save
+      if @beer_club.save && Membership.create(beer_club: @beer_club, user: current_user, confirmed: true)
         format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
         format.json { render action: 'show', status: :created, location: @beer_club }
       else

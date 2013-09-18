@@ -1,7 +1,7 @@
 class MembershipsController < ApplicationController
   before_filter :ensure_that_signed_in
 
-  before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_membership, only: [:show, :edit, :update, :destroy, :confirm]
 
   # GET /memberships
   # GET /memberships.json
@@ -28,7 +28,7 @@ class MembershipsController < ApplicationController
   # POST /memberships.json
   def create
     club = BeerClub.find params[:membership][:beer_club_id]
-    current_user.beer_clubs << club unless club.members.include? current_user
+    current_user.beer_clubs << club unless current_user.beer_clubs.include? club
     redirect_to club
   end
 
@@ -54,6 +54,13 @@ class MembershipsController < ApplicationController
       format.html { redirect_to memberships_url }
       format.json { head :no_content }
     end
+  end
+
+  def confirm
+    if @membership.beer_club.members.include? current_user
+      @membership.update_attribute :confirmed, true
+    end
+    redirect_to :back
   end
 
   private

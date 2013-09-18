@@ -9,6 +9,12 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :beer_clubs, through: :memberships
 
+  has_many :member_ins, conditions: {confirmed: true}, class_name: 'Membership'
+  has_many :membered_beer_clubs, through: :member_ins, source: :beer_club
+
+  has_many :applications, conditions: {confirmed: [nil, false]}, class_name: 'Membership'
+  has_many :applied_beer_clubs, through: :applications, source: :beer_club
+
   validates_uniqueness_of :username
   validates_length_of :username, in: 3..15
   validates_length_of :password, minimum: 4
