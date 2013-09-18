@@ -5,8 +5,9 @@ describe "Breweries page" do
 
   it "should not have any before been created" do
     visit breweries_path
-    expect(page).to have_content 'Listing breweries'
-    expect(page).to have_content 'number of breweries 0'
+    expect(page).to have_content 'Breweries'
+    expect(page).to have_content 'number of active breweries 0'
+    expect(page).to have_content 'number of retired breweries 0'
 
   end
 
@@ -15,14 +16,14 @@ describe "Breweries page" do
       @breweries = ["Koff", "Karjala", "Schlenkerla"]
       year = 1896
       @breweries.each do |brewery|
-        FactoryGirl.create(:brewery, name: brewery, year: year += 1)
+        FactoryGirl.create(:brewery, name: brewery, year: year += 1, active: true)
       end
 
       visit breweries_path
     end
 
     it "lists the breweries and their total number" do
-      expect(page).to have_content "number of breweries #{@breweries.count}"
+      expect(page).to have_content "number of active breweries #{@breweries.count}"
       @breweries.each do |brewery|
         expect(page).to have_content brewery
       end
@@ -74,7 +75,7 @@ describe "Breweries page" do
       FactoryGirl.create :user
       sign_in 'Pekka', 'foobar1'
 
-      visit breweries_path
+      visit brewery_path(brewery)
       expect(page).to have_no_content "Destroy"
     end
 
@@ -82,7 +83,7 @@ describe "Breweries page" do
       FactoryGirl.create :user, admin: true
       sign_in 'Pekka', 'foobar1'
 
-      visit breweries_path
+      visit brewery_path(brewery)
       expect{
         click_link('Destroy')
       }.to change{Brewery.count}.by(-1)

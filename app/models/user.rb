@@ -14,6 +14,11 @@ class User < ActiveRecord::Base
   validates_length_of :password, minimum: 4
   validates_format_of :password, with: /\A.*[^[:alpha:]]+.*\Z/, message: 'must have also non-letters'
 
+
+  def self.active_raters
+    all.sort_by{|user| -user.ratings.count}
+  end
+
   def favorite_beer
     return nil if ratings.empty?
     ratings.order('score DESC').first.beer

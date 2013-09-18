@@ -5,7 +5,7 @@ class Brewery < ActiveRecord::Base
   validate :year_to_be_sane
 
   has_many :beers
-  has_many :ratings, :through => :beers
+  has_many :ratings, through: :beers
 
   def year_to_be_sane
     unless (1042..Date.today.year).include? year
@@ -13,6 +13,10 @@ class Brewery < ActiveRecord::Base
     end
   end
 
-  scope :active, where(active: true)
-  scope :retired, where(active: [nil, false])
+  def to_s
+    name
+  end
+
+  scope :active, -> { where(active: true) }
+  scope :retired, -> { where(active: [nil, false]) }
 end

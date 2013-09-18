@@ -2,7 +2,12 @@ class RatingsController < ApplicationController
   before_filter :ensure_that_signed_in, except: [:index]
 
   def index
-    @ratings = Rating.all
+    @number_of_ratings = Rating.count
+    @top_beers = Beer.top(3)
+    @top_styles = Style.top(3)
+    @top_breweries = Brewery.top(3)
+    @active_users = User.active_raters.take(3)
+    @latest_ratings = Rating.recent.limit(5)
   end
 
   def new
